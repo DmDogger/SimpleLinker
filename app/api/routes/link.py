@@ -1,5 +1,5 @@
 from fastapi import Depends, APIRouter, HTTPException
-from fastapi.responses import RedirectResponse # Import RedirectResponse
+from fastapi.responses import RedirectResponse 
 
 from app.core.dependencies.services.link_service import get_link_service
 from app.core.models.dto.links import ShortLinkResponse, CreateShortLink

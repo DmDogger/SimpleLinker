@@ -1,139 +1,105 @@
 # SimpleLinker
 
-A simple URL shortener service built with FastAPI, SQLAlchemy, and PostgreSQL.
+## Project Overview
+
+SimpleLinker is a modern, high-performance URL shortening service built with FastAPI and PostgreSQL. It allows users to create short, memorable links that redirect to longer URLs, providing a clean and efficient way to manage web addresses.
 
 ## Features
 
-*   **URL Shortening:** Create short, unique slugs for long URLs.
-*   **PostgreSQL Database:** Persistent storage for links using SQLAlchemy.
-*   **Alembic Migrations:** Database schema management.
-*   **FastAPI:** Modern, fast (high-performance) web framework for building APIs.
-*   **Pydantic:** Data validation and settings management.
+*   **FastAPI Backend:** Robust and asynchronous API for handling link creation and redirection.
+*   **PostgreSQL Database:** Reliable data storage for links and their metadata.
+*   **Docker & Docker Compose:** Easy setup and deployment using containerization.
+*   **Alembic Migrations:** Database schema management for seamless updates.
+*   **Customizable Slugs:** Generate unique short codes for your links.
 
-## Setup
+## Technologies Used
+
+*   **Backend:** Python 3.12, FastAPI
+*   **Database:** PostgreSQL 16
+*   **Containerization:** Docker, Docker Compose
+*   **Database Migrations:** Alembic
+*   **Dependency Management:** pip
+
+## Getting Started (Local Development)
+
+Follow these steps to set up and run SimpleLinker on your local machine using Docker Compose.
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
+*   [Docker Desktop](https://www.docker.com/products/docker-desktop) (includes Docker Engine and Docker Compose) installed on your system.
 
-*   **Python 3.13+**
-*   **PostgreSQL:** A running PostgreSQL server.
-*   **`pip`** (Python package installer)
-*   **`venv`** (Python virtual environment tool)
+### 1. Clone the Repository
 
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository_url> # Replace with your repository URL
-    cd SimpleLinker
-    ```
-
-2.  **Create and activate a virtual environment:**
-    ```bash
-    python3.13 -m venv .venv
-    source .venv/bin/activate
-    ```
-
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(Note: You might need to generate `requirements.txt` first using `pip freeze > requirements.txt`)*
-
-4.  **Configure Environment Variables:**
-    Create a `.env` file in the project root directory and configure your database connection.
-    Example `.env` file:
-    ```env
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_DATABASE=smpledb
-    DB_USER=simplelinker
-    DB_PASSWORD=simplelinker
-
-    APP_HOST=127.0.0.1
-    APP_PORT=8080
-    ```
-    *Ensure the `DB_USER` and `DB_DATABASE` exist in your PostgreSQL server and the user has appropriate permissions.*
-
-5.  **Database Migrations (Alembic):**
-    Initialize and apply database migrations to create the necessary tables.
-
-    *   **Generate an empty base migration (if starting with an empty database):**
-        ```bash
-        alembic revision -m "empty base"
-        ```
-    *   **Stamp the database with the empty base:**
-        ```bash
-        alembic stamp head
-        ```
-    *   **Autogenerate the initial migration for your models:**
-        ```bash
-        alembic revision --autogenerate -m "initial"
-        ```
-    *   **Apply pending migrations to your database:**
-        ```bash
-        alembic upgrade head
-        ```
-
-## Running the Application
-
-To start the FastAPI application:
+First, clone the project repository to your local machine:
 
 ```bash
-uvicorn main:app --reload --port 8080
+git clone https://github.com/DmDogger/SimpleLinker.git
+cd SimpleLinker
 ```
 
-*   The `--reload` flag enables auto-reloading on code changes.
-*   You can specify a different port using `--port <your_port>`.
-*   The application will be accessible at `http://127.0.0.1:8080` (or your specified host/port).
+### 2. Create `.env` File
 
-## API Documentation
+Create a `.env` file in the root directory of the project with your database configuration. This file will be used by both the FastAPI application and the PostgreSQL container.
 
-The API provides an endpoint for creating short URLs.
+```ini
+# .env
+DB_HOST=db
+DB_PORT=5432
+DB_DATABASE=smpledb
+DB_USER=simplelinker
+DB_PASSWORD=simplelinker
+POSTGRES_DB=smpledb
+POSTGRES_USER=simplelinker
+POSTGRES_PASSWORD=simplelinker
+DATABASE_URL=postgresql+asyncpg://simplelinker:simplelinker@db:5432/smpledb
+```
+**Note:** `DB_HOST` is set to `db` because that's the service name of the PostgreSQL container within the Docker Compose network.
 
-### Base URL
+### 3. Build and Run with Docker Compose
 
-`http://127.0.0.1:8080` (or your application's host and port)
-
-### Endpoints
-
-#### `POST /link/`
-
-Creates a new short URL for a given long URL.
-
-*   **Description:** Submits a long URL to the service, which generates a unique short slug and stores the mapping.
-*   **Request Body:** `application/json`
-    *   **Schema:** `CreateShortLink`
-    ```json
-    {
-      "link": "https://www.example.com/very/long/url/that/needs/shortening"
-    }
-    ```
-    *   **Fields:**
-        *   `link` (string, `HttpUrl`): The long URL to be shortened. Must be a valid HTTP or HTTPS URL.
-*   **Response:** `201 Created` `application/json`
-    *   **Schema:** `ShortLinkResponse`
-    ```json
-    {
-      "link": "https://www.example.com/very/long/url/that/needs/shortening",
-      "link_with_slug": "http://127.0.0.1:8080/your_generated_slug"
-    }
-    ```
-    *   **Fields:**
-        *   `link` (string, `HttpUrl`): The original long URL.
-        *   `link_with_slug` (string): The generated short URL, including the base URL of your application and the unique slug.
-
-#### `GET /{slug}` (Future Feature / Implied)
-
-*(Note: This endpoint is not yet implemented in the provided router, but it is the logical next step for a URL shortener. It would redirect the user to the original long URL associated with the given slug.)*
-
-## Testing
-
-To run the unit tests for the project:
+Build the Docker images and start the services (FastAPI app and PostgreSQL database) using Docker Compose:
 
 ```bash
-PYTHONPATH=. pytest
+docker-compose up --build -d
+```
+*   The `--build` flag ensures that your application image is rebuilt, incorporating any changes in the `Dockerfile` or your code.
+*   The `-d` flag runs the services in detached mode (in the background).
+
+### 4. Run Database Migrations
+
+Once the services are running, you need to apply the database migrations to create the necessary tables (e.g., `links` table).
+
+```bash
+docker-compose exec app alembic upgrade head
+```
+This command executes `alembic upgrade head` inside your `app` container, applying all pending migrations to the PostgreSQL database.
+
+### 5. Access the Application
+
+Your SimpleLinker application should now be running and accessible.
+
+*   **API Documentation (Swagger UI):** Open your web browser and navigate to `http://localhost:8000/docs`
+*   **Redirection Service:** The main application will handle short link redirections.
+
+### Stopping the Services
+
+To stop and remove the Docker containers, networks, and volumes created by Docker Compose:
+
+```bash
+docker-compose down
 ```
 
-This will execute tests for the repository and service layers.
+## API Endpoints
+
+The FastAPI application provides the following main endpoints (refer to `/docs` for full details, assuming the router is mounted at a base path like `/` or `/api/v1`):
+
+*   `GET /{slug}`: Redirects to the original URL associated with the given `slug`. This is the core redirection service.
+*   `POST /`: Creates a new short link. (The exact path depends on how the router is included in `main.py`, e.g., `/` or `/api/v1/links`).
+
+## License
+
+All Rights Reserved. This code is provided for demonstration and educational purposes only. Unauthorized use, reproduction, or distribution is prohibited.
+
+## Contact
+
+For any questions or inquiries, please contact DmDogger via [GitHub Profile](https://github.com/DmDogger).

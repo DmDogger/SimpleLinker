@@ -4,6 +4,8 @@
 
 A simple and fast URL shortening service This project is a full-featured web application designed to demonstrate modern web development practices You can check out the live version at [simplelinker.cc](https://simplelinker.cc)
 
+![GIF](https://github.com/DmDogger/SimpleLinker/blob/main/docs/smartlinker.gif)
+
 
 ## About This Project
 

@@ -21,6 +21,7 @@ WORKDIR $HOME
 COPY app app
 COPY requirements.txt .
 COPY ./alembic.ini .
+COPY main.py .
 
 # обновление pip
 # установка зависимостей из списка requirements.txt

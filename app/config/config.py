@@ -27,6 +27,8 @@ class Settings(BaseSettings):
 
     database: Database = Field(default_factory=Database)
 
+    public_base_url: str = Field(alias="PUBLIC_BASE_URL")
+
     @computed_field
     @property
     def base_url(self) -> str:

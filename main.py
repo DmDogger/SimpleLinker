@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware # <-- Добавьте эту строку
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.link import router as link_router
 

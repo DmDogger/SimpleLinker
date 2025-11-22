@@ -7,4 +7,4 @@ from app.config.config import settings
 
 
 def get_link_service(repository: LinkRepository = Depends(get_link_repository)):
-    return LinkService(repository=repository, base_url=settings.base_url)
+    return LinkService(repository=repository, base_url=settings.public_base_url)

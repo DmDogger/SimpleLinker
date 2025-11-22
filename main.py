@@ -8,6 +8,6 @@ app = FastAPI(
     version='0.1.0'
 )
 
-app.include_router(link_router)
+app.include_router(link_router, prefix='/api')
 
 

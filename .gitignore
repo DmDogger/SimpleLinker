@@ -12,6 +12,4 @@ __pycache__/
 # Pytest
 .pytest_cache/
 
-# Alembic
-alembic.ini
 

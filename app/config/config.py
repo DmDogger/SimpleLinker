@@ -23,7 +23,7 @@ class Settings(BaseSettings):
         extra='ignore'
     )
     host: str = Field(default="127.0.0.1", alias="APP_HOST")
-    port: int = Field(default=8080, alias="APP_PORT")
+    port: int = Field(default=8000, alias="APP_PORT")
 
     database: Database = Field(default_factory=Database)
 

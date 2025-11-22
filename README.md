@@ -1,12 +1,14 @@
-# SimpleLinker 🔗
-
 <img src="https://raw.githubusercontent.com/DmDogger/SimpleLinker/main/docs/logo.png" alt="SimpleLinker" width="200"/>
 
+
+
 A simple and fast URL shortening service This project is a full-featured web application designed to demonstrate modern web development practices You can check out the live version at [simplelinker.cc](https://simplelinker.cc)
+
 
 ## About This Project
 
 Hey there! I'm excited to share **SimpleLinker**, my personal project for shortening URLs I built it as a complete web application with a clean separation between the backend and frontend The entire app is containerized with Docker, which makes deployment incredibly simple
+
 
 ### What it does
 -   Takes a long link

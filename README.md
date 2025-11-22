@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/DmDogger/SimpleLinker/main/docs/logo.png" alt="SimpleLinker" width="200"/>
+<img src="https://raw.githubusercontent.com/DmDogger/SimpleLinker/main/docs/logo.png" alt="SimpleLinker" width="350"/>
 
 
 

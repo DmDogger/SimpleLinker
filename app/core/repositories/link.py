@@ -12,12 +12,14 @@ class LinkRepository(BaseSQLAlchemyRepository):
     def __init__(self, session):
         super().__init__(session)
 
-    async def create_from_dto(self,
-                              dto: CreateShortLink,
-                              slug: str) -> Link:
+    def create_from_dto(
+        self,
+        dto: CreateShortLink,
+        slug: str
+    ) -> Link:
         return Link(
-                    link=str(dto.link),
-                    slug=slug
+            link=str(dto.link),
+            slug=slug
         )
 
     async def add(self, model: Link) -> None:
